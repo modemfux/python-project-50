@@ -10,6 +10,9 @@ packages = [{include = "hexlet_code"}]
 python = "^3.10"
 
 
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.13.2"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
