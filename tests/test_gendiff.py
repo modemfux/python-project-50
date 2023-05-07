@@ -5,23 +5,23 @@ import json
 
 @pytest.fixture
 def dict1():
-    with open('fixtures/file1.json') as src:
+    with open('tests/fixtures/file1.json') as src:
         dict1 = json.load(src)
     return dict1
 
 
 @pytest.fixture
 def dict2():
-    with open('fixtures/file1.json') as src:
+    with open('tests/fixtures/file2.json') as src:
         dict2 = json.load(src)
     return dict2
 
 
 @pytest.fixture
 def keys():
-    with open('fixtures/file1.json') as src:
+    with open('tests/fixtures/file1.json') as src:
         dict1 = json.load(src)
-    with open('fixtures/file1.json') as src:
+    with open('tests/fixtures/file2.json') as src:
         dict2 = json.load(src)
     key_list = list(sorted(set(list(dict1.keys()) + list(dict2.keys()))))
     return key_list
