@@ -13,7 +13,7 @@ def check_key_in_dicts(key, dict1, dict2):
             keys['1'], dict1[key], keys['2'], dict2[key])
     elif key in dict1.keys() and key not in dict2.keys():
         return keys['1'], dict1.get(key)
-    else:
+    elif key in dict2.keys() and key not in dict1.keys():
         return keys['2'], dict2.get(key)
 
 
