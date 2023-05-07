@@ -2,17 +2,18 @@ import json
 
 
 def check_key_in_dicts(key, dict1, dict2):
-    key0 = '  ' + key
-    key1 = '- ' + key
-    key2 = '+ ' + key
-    if all([key in dict1 and key in dict2 and dict1[key] == dict2[key]]):
-        return key0, dict1[key]
-    elif all([key in dict1 and key in dict2 and dict1[key] != dict2[key]]):
-        return (key1, dict1[key], key2, dict2[key])
-    elif key in dict1 and key not in dict2:
-        return key1, dict1.get(key)
-    elif key in dict2 and key not in dict1:
-        return key2, dict2.get(key)
+    keys = {
+        '0': '  ' + key,
+        '1': '- ' + key,
+        '2': '+ ' + key
+        }
+    if key in dict1.keys() and key in dict2.keys():
+        return (keys['0'], dict1[key]) if dict1[key] == dict2[key] else (
+            keys['1'], dict1[key], keys['2'], dict2[key])
+    elif key in dict1.keys() and key not in dict2.keys():
+        return keys['1'], dict1.get(key)
+    elif key in dict2.keys() and key not in dict1.keys():
+        return keys['2'], dict2.get(key)
 
 
 def generate_diff(file1, file2):
