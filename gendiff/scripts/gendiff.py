@@ -1,19 +1,33 @@
-import argparse
+
+import json
 
 
-# Allow to show some help via key arguments
-parser = argparse.ArgumentParser(
-    description='Compares two configuration files and shows a difference.')
-parser.add_argument('first_file')
-parser.add_argument('second_file')
-parser.add_argument('-f', '--format', default='plain')
-args = parser.parse_args()
+def check_key_in_dicts(key, dict1, dict2):
+    key1 = '- ' + key
+    key2 = '+ ' + key
+    if key in dict1.keys() and key in dict2.keys():
+        return key, dict1[key] if dict1[key] == dict2[key] else (
+            key1, dict1[key], key2, dict2[key])
+    elif key in dict1.keys() and key not in dict2.keys():
+        return key1, dict1.get(key)
+    elif key in dict2.keys() and key not in dict1.keys():
+        return key2, dict2.get(key)
 
 
-def main():
-    return args.first_file, args.second_file
-
-
-if __name__ == '__main__':
-    print('Call by name')
-    print(main())
+def generate_diff(file1, file2):
+    with open(file1) as src:
+        item1 = json.load(src)
+    with open(file2) as src:
+        item2 = json.load(src)
+    all_keys = list(sorted(set(item1.keys()) | set(item2.keys())))
+    new_dict = {}
+    for key in all_keys:
+        mid_res = check_key_in_dicts(key, item1, item2)
+        if not isinstance(mid_res[1], tuple):
+            n_key, n_value = mid_res
+            new_dict[n_key] = n_value
+        else:
+            n_key1, n_value1, n_key2, n_value2 = mid_res[1]
+            new_dict[n_key1] = n_value1
+            new_dict[n_key2] = n_value2
+    return new_dict
