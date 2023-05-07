@@ -1,3 +1,4 @@
+from gendiff.scripts.gendiff import generate_diff
 from gendiff.scripts.gendiff import check_key_in_dicts
 import pytest
 import json
@@ -27,6 +28,18 @@ def keys():
     return key_list
 
 
+@pytest.fixture
+def expected_output():
+    with open('tests/fixtures/expected_output.txt') as src:
+        exp_result = src.read()
+    return exp_result
+
+
+@pytest.fixture
+def files():
+    return 'tests/fixtures/file1.json', 'tests/fixtures/file2.json'
+
+
 def test_check_key_in_dicts(keys, dict1, dict2):
     key0, key1, key2, key3, key4 = keys
     assert check_key_in_dicts(key0, dict1, dict2) == ('- follow', False)
@@ -37,3 +50,9 @@ def test_check_key_in_dicts(keys, dict1, dict2):
                                                       ('- timeout', 50,
                                                        '+ timeout', 20))
     assert check_key_in_dicts(key4, dict1, dict2) == ('+ verbose', True)
+
+
+def test_generate_diff(files, expected_output):
+    file1, file2 = files
+    assert generate_diff(file1, file2) == expected_output
+
