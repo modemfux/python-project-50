@@ -3,7 +3,7 @@
 
 
 ### GitHub actions
-![gendiff-workflow](https://github.com/modemfux/python-project-50/workflows/gendiff-workflow.yml/badge.svg)
+[![gendiff-workflow](https://github.com/modemfux/python-project-50/actions/workflows/gendiff-workflow.yml/badge.svg)](https://github.com/modemfux/python-project-50/actions)
 
 
 ### Codeclimate Maintainability
