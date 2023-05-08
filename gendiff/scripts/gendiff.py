@@ -1,4 +1,6 @@
+import os
 import json
+import yaml
 
 
 def check_key_in_dicts(key, dict1, dict2):
@@ -16,11 +18,28 @@ def check_key_in_dicts(key, dict1, dict2):
         return keys['2'], dict2.get(key)
 
 
+def get_extension(name):
+    return name.split('.')[-1] if '.' in name else None
+
+
+def file_to_collection(file):
+    actions = {
+        'json': json.load,
+        'yml': yaml.safe_load,
+        'yaml': yaml.safe_load
+        }
+    if not os.path.exists(file):
+        path, name = os.path.split(file)
+        raise Exception(f'There is no such file as "{name}" in "{path}"')
+    else:
+        ext = get_extension(file)
+        with open(file) as src:
+            return actions[ext](src) if actions.get(ext) else src.read()
+
+
 def generate_diff(file1, file2):
-    with open(file1) as src:
-        item1 = json.load(src)
-    with open(file2) as src:
-        item2 = json.load(src)
+    item1 = file_to_collection(file1)
+    item2 = file_to_collection(file2)
     all_keys = list(sorted(set(item1.keys()) | set(item2.keys())))
     new_dict = {}
     for key in all_keys:
