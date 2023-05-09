@@ -1,7 +1,7 @@
 from gendiff.scripts.gendiff import generate_diff
-from gendiff.scripts.gendiff import check_key_in_dicts
 from gendiff.scripts.gendiff import get_extension
 from gendiff.scripts.gendiff import file_to_collection
+from gendiff.scripts.gendiff import get_unique_keys
 import yaml
 import pytest
 import json
@@ -43,6 +43,20 @@ def dict5():
 
 
 @pytest.fixture
+def dict11():
+    with open('tests/fixtures/recursive/file1.json') as src:
+        dict11 = json.load(src)
+    return dict11
+
+
+@pytest.fixture
+def dict12():
+    with open('tests/fixtures/recursive/file2.json') as src:
+        dict12 = json.load(src)
+    return dict12
+
+
+@pytest.fixture
 def keys():
     with open('tests/fixtures/file1.json') as src:
         dict1 = json.load(src)
@@ -60,11 +74,20 @@ def diff_expected_output():
 
 
 @pytest.fixture
+def diff_expected_recursive_output():
+    with open('tests/fixtures/recursive/recursive_expected_result.txt') as src:
+        exp_result = src.read()
+    return exp_result
+
+
+@pytest.fixture
 def files():
     return ('tests/fixtures/file1.json',
             'tests/fixtures/file2.json',
             'tests/fixtures/file3.yaml',
-            'tests/fixtures/file4.yaml')
+            'tests/fixtures/file4.yaml',
+            'tests/fixtures/recursive/file1.json',
+            'tests/fixtures/recursive/file2.json')
 
 
 @pytest.fixture
@@ -106,18 +129,16 @@ def test_file_to_collection(
         file_to_collection('')
 
 
-def test_check_key_in_dicts(keys, dict1, dict2):
-    key0, key1, key2, key3, key4 = keys
-    assert check_key_in_dicts(key0, dict1, dict2) == ('- follow', False)
-    assert check_key_in_dicts(key1, dict1, dict2) == ('  host', 'hexlet.io')
-    assert check_key_in_dicts(key2, dict1, dict2) == ('- proxy',
-                                                      '123.234.53.22')
-    assert check_key_in_dicts(key3, dict1, dict2) == ('- timeout', 50,
-                                                      '+ timeout', 20)
-    assert check_key_in_dicts(key4, dict1, dict2) == ('+ verbose', True)
+def test_get_unique_keys(dict1, dict2):
+    assert get_unique_keys(dict1, dict2) == ['follow', 'host',
+                                             'proxy', 'timeout', 'verbose']
+    assert get_unique_keys(dict1, {}) == ['follow', 'host', 'proxy', 'timeout']
+    assert get_unique_keys({}, {}) == []
 
 
-def test_generate_diff(files, diff_expected_output):
-    file1, file2, file3, file4 = files
+def test_generate_diff(files, diff_expected_output,
+                       diff_expected_recursive_output):
+    file1, file2, file3, file4, file11, file12 = files
     assert generate_diff(file1, file2) == diff_expected_output
     assert generate_diff(file3, file4) == diff_expected_output
+    assert generate_diff(file11, file12) == diff_expected_recursive_output
