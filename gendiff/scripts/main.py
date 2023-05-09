@@ -1,5 +1,6 @@
 import argparse
 from gendiff.scripts.gendiff import generate_diff
+from gendiff.scripts.gendiff import stylish
 
 
 # Allow to show some help via key arguments
@@ -11,8 +12,8 @@ parser.add_argument('-f', '--format', default='plain')
 args = parser.parse_args()
 
 
-def main():
-    return generate_diff(args.first_file, args.second_file)
+def main(formatter=stylish):
+    return generate_diff(args.first_file, args.second_file, formatter)
 
 
 if __name__ == '__main__':
