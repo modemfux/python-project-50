@@ -18,3 +18,6 @@ test:
 
 install:
 	poetry install
+
+check-complex:
+	poetry run flake8 --max-cognitive-complexity=5 --show-source -v gendiff
