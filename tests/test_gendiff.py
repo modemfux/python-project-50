@@ -1,7 +1,7 @@
 from gendiff.scripts.gendiff import generate_diff
-from gendiff.scripts.gendiff import get_extension
+from gendiff.lib.funcs import get_extension
 from gendiff.scripts.gendiff import file_to_collection
-from gendiff.scripts.gendiff import get_unique_keys
+from gendiff.lib.funcs import get_unique_keys
 import yaml
 import pytest
 import json
