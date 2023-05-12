@@ -1,6 +1,6 @@
+from gendiff.scripts.gendiff import file_to_collection
 from gendiff.scripts.gendiff import generate_diff
 from gendiff.lib.funcs import get_extension
-from gendiff.scripts.gendiff import file_to_collection
 from gendiff.lib.funcs import get_unique_keys
 import yaml
 import pytest
@@ -105,6 +105,21 @@ def file_to_collection_probe():
             'tests/fixtures/file5.yml')
 
 
+@pytest.fixture
+def plain_probe():
+    filename = 'tests/fixtures/recursive/recursive_expected_result_plain.txt'
+    with open(filename) as src:
+        probe = src.read()
+    return probe
+
+
+@pytest.fixture
+def recursive_files():
+    file1 = 'tests/fixtures/recursive/file1.json'
+    file2 = 'tests/fixtures/recursive/file2.json'
+    return file1, file2
+
+
 def test_get_extension(get_extensions_probe):
     files, exts = get_extensions_probe
     result_list = list(map(get_extension, files))
@@ -137,8 +152,10 @@ def test_get_unique_keys(dict1, dict2):
 
 
 def test_generate_diff(files, diff_expected_output,
-                       diff_expected_recursive_output):
+                       diff_expected_recursive_output,
+                       plain_probe):
     file1, file2, file3, file4, file11, file12 = files
     assert generate_diff(file1, file2) == diff_expected_output
     assert generate_diff(file3, file4) == diff_expected_output
     assert generate_diff(file11, file12) == diff_expected_recursive_output
+    assert generate_diff(file11, file12, 'plain') == plain_probe
