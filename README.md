@@ -18,5 +18,7 @@
 https://asciinema.org/a/MxF8aSuwWCDGFK1AxwgTvR2nW
 #### Step 05
 https://asciinema.org/a/xGkTttRSaA8bVjPnSZ1rATz0m
-#### Steo 06
+#### Step 06
 https://asciinema.org/a/HgtB3oBywrxW11dj7ceWu3Cxp
+#### Step 07
+https://asciinema.org/a/yht5iNr8l18g22qsLVEZxVhDX
