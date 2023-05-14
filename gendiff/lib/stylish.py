@@ -29,9 +29,8 @@ def stylish(diffed_dict):
     result = ''
     for line in string.split('\n'):
         line = line.replace('"', '')
-        for end_sign in [',', ' ']:
-            while line.endswith(end_sign):
-                line = line[:-1]
+        if line.endswith(','):
+            line = line[:-1]
         line = line.replace('  +', '+')
         line = line.replace('  -', '-')
         line += '\n'
