@@ -22,3 +22,5 @@ https://asciinema.org/a/xGkTttRSaA8bVjPnSZ1rATz0m
 https://asciinema.org/a/HgtB3oBywrxW11dj7ceWu3Cxp
 #### Step 07
 https://asciinema.org/a/yht5iNr8l18g22qsLVEZxVhDX
+#### Step 08
+https://asciinema.org/a/7fCzgM7SkcLGA2r4Wq96n0cST
