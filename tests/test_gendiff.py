@@ -126,6 +126,14 @@ def test_get_extension(get_extensions_probe):
     assert result_list == exts
 
 
+@pytest.fixture
+def json_probe():
+    filename = 'tests/fixtures/recursive/recursive_expected_result_json.txt'
+    with open(filename) as src:
+        probe = src.read()
+    return probe
+
+
 def test_file_to_collection(
         diff_expected_output,
         file_to_collection_probe,
@@ -153,9 +161,10 @@ def test_get_unique_keys(dict1, dict2):
 
 def test_generate_diff(files, diff_expected_output,
                        diff_expected_recursive_output,
-                       plain_probe):
+                       plain_probe, json_probe):
     file1, file2, file3, file4, file11, file12 = files
     assert generate_diff(file1, file2) == diff_expected_output
     assert generate_diff(file3, file4) == diff_expected_output
     assert generate_diff(file11, file12) == diff_expected_recursive_output
     assert generate_diff(file11, file12, 'plain') == plain_probe
+    assert generate_diff(file11, file12, 'json') == json_probe
