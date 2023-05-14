@@ -28,7 +28,7 @@ def get_string_for_normalize(state, value, accum):
     return result
 
 
-def plain(diffed_dict, accumulator=''):
+def plaining(diffed_dict, accumulator=''):
     result_text = ''
     for key, value in diffed_dict.items():
         state = value['state']
@@ -38,7 +38,7 @@ def plain(diffed_dict, accumulator=''):
             new_accum = new_accum[1:]
         match state:
             case 'inner':
-                result_text += plain(end_value, new_accum)
+                result_text += plaining(end_value, new_accum)
             case 'keep':
                 pass
             case _:
@@ -46,3 +46,7 @@ def plain(diffed_dict, accumulator=''):
                                                         end_value,
                                                         new_accum)
     return result_text
+
+
+def plain(diffed_dict):
+    return plaining(diffed_dict)[:-1]
