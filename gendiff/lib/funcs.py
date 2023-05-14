@@ -49,8 +49,7 @@ def file_to_collection(file):
     actions = {
         'json': json.load,
         'yml': yaml.safe_load,
-        'yaml': yaml.safe_load
-        }
+        'yaml': yaml.safe_load}
     if not os.path.exists(file):
         path, name = os.path.split(file)
         raise Exception(f'There is no such file as "{name}" in "{path}"')
